@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Material Design Form</title>
+  <title>Canvas to Spreadsheet</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <style>
     /* custom styles */
@@ -17,6 +17,17 @@
         letter-spacing: 0.1rem;
         text-transform: uppercase;
     }
+    h3 {
+        color: #333;
+        text-align: center;
+        font-weight: 500;
+        font-size: 1.5rem;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+    }
+    ul {
+  list-style-type: disc;
+}
 
     /* label focus color */
     .input-field label {
@@ -36,26 +47,38 @@
 </head>
 
 <body>
-  <div class="container">
-    <h2 class="center-align">Canvas to Spreadsheet</h2>
-    <div class="row">
-      <form id="myForm">
-        <div class="input-field col s12">
-          <input id="name" type="text">
-          <label>API-KEY</label>
-        </div>
-        <div class="input-field col s12">
-          <input id="email" type="text">
-          <label>URL</label>
-        </div>
-        <div class="col s12 center-align">
-          <button id="submitButton" class="btn waves-effect waves-light" type="submit" name="action">Submit
-            </button>
+    <div class="container">
+        <h2 class="center-align">Canvas to Spreadsheet</h2>
+        <div class="row">
+          <form id="myForm">
+            <div class="input-field col s12">
+              <input id="name" type="text" placeholder="API KEY">
+              <!-- <label>API-KEY</label> -->
             </div>
-            </form>
+            <div class="input-field col s12">
+              <input id="email" type="text" placeholder="Instance name e.g. 'ucr'">
+              <!-- <label>URL</label> -->
             </div>
-            
-              </div>
+            <div class="col s12 center-align">
+              <button id="submitButton" class="btn waves-effect waves-light" type="submit" name="action">Submit
+                </button>
+            </div>
+          </form>
+        </div>
+        <div class="divider"></div>
+        <div class="row">
+            <h3>Instructions for obtaining API key:</h3>
+            <ul>
+              <li>Log in to your Canvas instance as an administrator.</li>
+              <li>Go to the "Account" menu and select "Settings".</li>
+              <li>In the "Settings" menu, select "API" from the left sidebar.</li>
+              <li>On the API page, you will see an "Add key" button. Click on it.</li>
+              <li>In the "New Access Token" modal that appears, you can set a name and expiration date for the token.</li>
+              <li>Once you have set the name and expiration date, click on the "Generate" button.</li>
+              <li>A new Access Token will be generated, and you will need to copy it immediately and store it securely.</li>
+            </ul>
+        </div>
+    </div>
               <script>
                 // your JavaScript code goes here
                 function makeRequest(event) {
@@ -63,8 +86,9 @@
               event.preventDefault();
               // Get the input values
               const name = document.getElementById("name").value;
-              const email = document.getElementById("email").value;
-            
+              const t_email = document.getElementById("email").value;
+              const email = `https://${t_email}.instructure.com:443/api/v1/courses?enrollment_type=student&enrollment_state=active&exclude_blueprint_courses=false`;
+            console.log(name, email)
               // Define the data you want to send with the request
               const data = { TOKEN: name, url: email};
             
