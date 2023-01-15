@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Material Design Form</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <style>
+    /* custom styles */
+    .container {
+      margin-top: 20px;
+    }
+    h2 {
+        color: #333;
+        text-align: center;
+        font-weight: 500;
+        font-size: 2.5rem;
+        letter-spacing: 0.1rem;
+        text-transform: uppercase;
+    }
+
+    /* label focus color */
+    .input-field label {
+      color: #9e9e9e;
+    }
+
+    .input-field input:focus + label {
+      color: #4db6ac;
+    }
+
+    /* label underline color */
+    .input-field input:focus {
+      border-bottom: 1px solid #4db6ac;
+      box-shadow: 0 1px 0 0 #4db6ac;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2 class="center-align">Canvas to Spreadsheet</h2>
+    <div class="row">
+      <form id="myForm">
+        <div class="input-field col s12">
+          <input id="name" type="text">
+          <label>API-KEY</label>
+        </div>
+        <div class="input-field col s12">
+          <input id="email" type="text">
+          <label>URL</label>
+        </div>
+        <div class="col s12 center-align">
+          <button id="submitButton" class="btn waves-effect waves-light" type="submit" name="action">Submit
+            </button>
+            </div>
+            </form>
+            </div>
+            
+              </div>
+              <script>
+                // your JavaScript code goes here
+                function makeRequest(event) {
+              // prevent the form from submitting
+              event.preventDefault();
+              // Get the input values
+              const name = document.getElementById("name").value;
+              const email = document.getElementById("email").value;
+            
+              // Define the data you want to send with the request
+              const data = { TOKEN: name, url: email};
+            
+              // make the POST request to the Flask app
+              fetch('https://CanvasToSpreadhseetWebService.shauryapathak.repl.co/add', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+              })
+              .then(response => response.blob())
+              .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                // set the file name you want
+                a.download = 'assignments.csv';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                alert('Your File Has Been Downloaded!');
+              })
+              .catch(error => {
+                console.error('Error downloading the file.', error);
+              });
+            }
+                document.getElementById("submitButton").addEventListener("click", makeRequest);
+              </script>
+            </body>
+            </html>
